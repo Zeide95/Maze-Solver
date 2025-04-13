@@ -22,18 +22,14 @@ public class Main {
         }
 
         int startX = 1, startY = 0; // левая граница
+        int endX = rows - 2, endY = cols - 1; // правая граница
         maze[startX][startY] = ' '; // вход
         maze[startX][1] = ' ';
 
         carve(startX, 1, maze);
 
-        // выход справа
-        for (int i = rows - 2; i > 0; i--) {
-            if (maze[i][cols - 2] == ' ') {
-                maze[i][cols - 1] = ' ';
-                break;
-            }
-        }
+        maze[endX][endY] = ' '; // выход
+        maze[endX][endY - 1] = ' ';
 
         return maze;
     }
