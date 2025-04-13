@@ -1,16 +1,18 @@
 import java.util.*;
 
 public class Main {
+    private static final Random random = new Random();
+    private static final int rows = 15;
+    private static final int cols = 15;
+    private static final char[][] maze = generateMaze(rows, cols);
+
     public static void main(String[] args) {
-        int rows = 15;
-        int cols = 15;
-        char[][] maze = generateMaze(rows, cols);
         printMaze(maze);
 
     }
 
     public static char[][] generateMaze(int rows, int cols) {
-        Random random = new Random();
+
         char[][] maze = new char[rows][cols];
 
         for(int i = 0; i < rows; i++) {
@@ -19,12 +21,12 @@ public class Main {
             }
         }
 
-        int startX = 1 + 2 * random.nextInt((rows - 2) / 2); // случайный нечётный индекс
+        int startX = 1 + (2 * random.nextInt((rows - 2) / 2)); // случайный нечётный индекс
         int startY = 0; // левая граница
         maze[startX][startY] = ' '; // вход
         maze[startX][1] = ' ';
 
-        carve(startX, 1, maze, random);
+        carve(startX, 1, maze);
 
         // выход справа
         for (int i = rows - 2; i > 0; i--) {
@@ -37,7 +39,7 @@ public class Main {
         return maze;
     }
 
-    public static void carve(int x, int y, char[][] maze, Random random) {
+    public static void carve(int x, int y, char[][] maze) {
         int[] dx = {0, 0, -2, 2};
         int[] dy = {-2, 2, 0, 0};
         Integer[] directions = {0, 1, 2, 3};
@@ -50,7 +52,7 @@ public class Main {
             if (isInBounds(nx, ny, maze) && maze[nx][ny] == '#') {
                 maze[nx][ny] = ' ';
                 maze[x + dx[dir] / 2][y + dy[dir] / 2] = ' ';
-                carve(nx, ny, maze, random);
+                carve(nx, ny, maze);
             }
         }
     }
