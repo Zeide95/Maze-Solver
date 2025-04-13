@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 11;
-        int cols = 11;
+        int rows = 15;
+        int cols = 15;
         char[][] maze = generateMaze(rows, cols);
         printMaze(maze);
 
@@ -22,12 +22,41 @@ public class Main {
         int startX = 1 + 2 * random.nextInt((rows - 2) / 2); // случайный нечётный индекс
         int startY = 0; // левая граница
         maze[startX][startY] = ' '; // вход
+        maze[startX][1] = ' ';
 
-        int endX = 1 + 2 * random.nextInt((rows - 2) / 2);
-        int endY = cols - 1; // правая граница
-        maze[endX][endY] = ' '; // выход
+        carve(startX, 1, maze, random);
+
+        // выход справа
+        for (int i = rows - 2; i > 0; i--) {
+            if (maze[i][cols - 2] == ' ') {
+                maze[i][cols - 1] = ' ';
+                break;
+            }
+        }
 
         return maze;
+    }
+
+    public static void carve(int x, int y, char[][] maze, Random random) {
+        int[] dx = {0, 0, -2, 2};
+        int[] dy = {-2, 2, 0, 0};
+        Integer[] directions = {0, 1, 2, 3};
+        Collections.shuffle(Arrays.asList(directions), random);
+
+        for (int dir : directions) {
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
+
+            if (isInBounds(nx, ny, maze) && maze[nx][ny] == '#') {
+                maze[nx][ny] = ' ';
+                maze[x + dx[dir] / 2][y + dy[dir] / 2] = ' ';
+                carve(nx, ny, maze, random);
+            }
+        }
+    }
+
+    public static boolean isInBounds(int x, int y, char[][] maze) {
+        return x > 0 && x < maze.length - 1 && y > 0 && y < maze[0].length - 1;
     }
 
     public static void printMaze(char[][] maze) {
