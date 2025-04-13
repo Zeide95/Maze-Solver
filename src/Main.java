@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         printMaze(maze);
+        copyMaze();
 
     }
 
@@ -55,6 +56,25 @@ public class Main {
     public static boolean isInBounds(int x, int y, char[][] maze) {
         return x > 0 && x < maze.length - 1 && y > 0 && y < maze[0].length - 1;
     }
+
+    public static void copyMaze() {
+        char[][] maze2 = new char[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            System.arraycopy(maze[i], 0, maze2[i], 0, cols);
+        }
+
+        maze2[1][0] = 'S';
+        maze2[rows - 2][cols - 1] = 'F';
+
+        for (char[] row : maze2) {
+            for (char c : row) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
+
 
     public static void printMaze(char[][] maze) {
         for (char[] row : maze) {
