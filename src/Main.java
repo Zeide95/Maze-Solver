@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     private static final Random random = new Random();
-    private static final int rows = 15;
+    private static final int rows = 11;
     private static final int cols = 15;
     private static final char[][] maze = generateMaze(rows, cols);
 
@@ -21,8 +21,7 @@ public class Main {
             }
         }
 
-        int startX = 1 + (2 * random.nextInt((rows - 2) / 2)); // случайный нечётный индекс
-        int startY = 0; // левая граница
+        int startX = 1, startY = 0; // левая граница
         maze[startX][startY] = ' '; // вход
         maze[startX][1] = ' ';
 
@@ -42,8 +41,8 @@ public class Main {
     public static void carve(int x, int y, char[][] maze) {
         int[] dx = {0, 0, -2, 2};
         int[] dy = {-2, 2, 0, 0};
-        Integer[] directions = {0, 1, 2, 3};
-        Collections.shuffle(Arrays.asList(directions), random);
+        List<Integer> directions = Arrays.asList(0, 1, 2, 3);
+        Collections.shuffle(directions, random);
 
         for (int dir : directions) {
             int nx = x + dx[dir];
