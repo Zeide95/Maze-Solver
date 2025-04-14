@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         maze = generateMaze(rows, cols);
         printMaze();
+        printCopy(copyMaze());
 
     }
 
@@ -76,6 +77,15 @@ public class Main {
         maze2[rows - 2][cols - 1] = 'F';
 
         return maze2;
+    }
+
+    public static void printCopy(char[][] maze) {
+        for (char[] row : maze) {
+            for (char c : row) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
     }
 
 }
