@@ -9,7 +9,10 @@ public class Main {
     public static void main(String[] args) {
         maze = generateMaze(rows, cols);
         printMaze();
-        printCopy(copyMaze());
+        char[][] mazeWithPath = copyMaze();
+        solve(1, 1, mazeWithPath);
+        printCopy(mazeWithPath);
+
 
     }
 
@@ -77,6 +80,24 @@ public class Main {
         maze2[rows - 2][cols - 1] = 'F';
 
         return maze2;
+    }
+
+    public static boolean solve(int x, int y, char[][] maze2) {
+        if (x < 0 || y < 0 || x >= rows || y >= cols) return false;
+
+        if (maze2[x][y] == 'F') return true;
+
+        if (maze2[x][y] == '#' || maze2[x][y] == '.' || maze2[x][y] == 'S') return false;
+
+        maze2[x][y] = '.';
+
+        if (solve(x, y + 1, maze2)) return true;
+        if (solve(x - 1, y, maze2)) return true;
+        if (solve(x, y - 1, maze2)) return true;
+        if (solve(x + 1, y, maze2)) return true;
+
+        maze2[x][y] = ' '; // откат
+        return false;
     }
 
     public static void printCopy(char[][] maze) {
