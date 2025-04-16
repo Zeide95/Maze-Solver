@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Main {
     private static final Random random = new Random();
-    private static final int rows = 11;
-    private static final int cols = 11;
+    private static final int rows = 11, cols = 21;
+    private static final char wall = '#', path = ' ', step = '.';
     private static char[][] maze;
 
     public static void main(String[] args) {
@@ -12,8 +12,6 @@ public class Main {
         char[][] mazeWithPath = copyMaze();
         solve(1, 1, mazeWithPath);
         printCopy(mazeWithPath);
-
-
     }
 
     public static char[][] generateMaze(int rows, int cols) {
@@ -21,19 +19,17 @@ public class Main {
 
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                maze[i][j] = '#';
+                maze[i][j] = wall;
             }
         }
 
-        int startX = 1, startY = 0; // левая граница
-        int endX = rows - 2, endY = cols - 1; // правая граница
-        maze[startX][startY] = ' '; // вход
-        maze[startX][1] = ' ';
+        maze[1][0] = path; // вход
+        maze[1][1] = path;
 
-        carve(startX, 1);
+        carve(1, 1);
 
-        maze[endX][endY] = ' '; // выход
-        maze[endX][endY - 1] = ' ';
+        maze[rows - 2][cols - 1] = path; // выход
+        maze[rows - 2][cols - 2] = path;
 
         return maze;
     }
@@ -48,9 +44,9 @@ public class Main {
             int nx = x + dx[dir];
             int ny = y + dy[dir];
 
-            if (isInBounds(nx, ny) && maze[nx][ny] == '#') {
-                maze[nx][ny] = ' ';
-                maze[x + dx[dir] / 2][y + dy[dir] / 2] = ' ';
+            if (isInBounds(nx, ny) && maze[nx][ny] == wall) {
+                maze[nx][ny] = path;
+                maze[x + dx[dir] / 2][y + dy[dir] / 2] = path;
                 carve(nx, ny);
             }
         }
@@ -87,16 +83,16 @@ public class Main {
 
         if (maze2[x][y] == 'F') return true;
 
-        if (maze2[x][y] == '#' || maze2[x][y] == '.' || maze2[x][y] == 'S') return false;
+        if (maze2[x][y] == wall || maze2[x][y] == step || maze2[x][y] == 'S') return false;
 
-        maze2[x][y] = '.';
+        maze2[x][y] = step;
 
-        if (solve(x, y + 1, maze2)) return true;
-        if (solve(x - 1, y, maze2)) return true;
-        if (solve(x, y - 1, maze2)) return true;
-        if (solve(x + 1, y, maze2)) return true;
+        if (solve(x, y + 1, maze2)) return true; // вправо
+        if (solve(x - 1, y, maze2)) return true; // вверх
+        if (solve(x, y - 1, maze2)) return true; // влево
+        if (solve(x + 1, y, maze2)) return true; // вниз
 
-        maze2[x][y] = ' '; // откат
+        maze2[x][y] = path; // откат
         return false;
     }
 
