@@ -8,10 +8,15 @@ public class Main {
 
     public static void main(String[] args) {
         maze = generateMaze(rows, cols);
+        System.out.println("Generated maze:");
         printMaze();
         char[][] mazeWithPath = copyMaze();
-        solve(1, 1, mazeWithPath);
-        printCopy(mazeWithPath);
+
+        if (solve(1, 1, mazeWithPath)) {
+            System.out.println("\nSolved maze:");
+            printCopy(mazeWithPath);
+            System.out.println("\nSolution found!");
+        } else System.out.println("No solution found.");
     }
 
     public static char[][] generateMaze(int rows, int cols) {
