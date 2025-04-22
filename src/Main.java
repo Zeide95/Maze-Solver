@@ -9,12 +9,12 @@ public class Main {
     public static void main(String[] args) {
         maze = generateMaze(rows, cols);
         System.out.println("Generated maze:");
-        printMaze();
+        printMaze(maze);
         char[][] mazeWithPath = copyMaze();
 
         if (solve(1, 1, mazeWithPath)) {
             System.out.println("\nSolved maze:");
-            printCopy(mazeWithPath);
+            printMaze(mazeWithPath);
             System.out.println("\nSolution found!");
         } else System.out.println("No solution found.");
     }
@@ -61,15 +61,6 @@ public class Main {
         return x > 0 && x < maze.length - 1 && y > 0 && y < maze[0].length - 1;
     }
 
-    public static void printMaze() {
-        for (char[] row : maze) {
-            for (char c : row) {
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-    }
-
     public static char[][] copyMaze() {
         char[][] maze2 = new char[rows][cols];
 
@@ -101,7 +92,7 @@ public class Main {
         return false;
     }
 
-    public static void printCopy(char[][] maze) {
+    public static void printMaze(char[][] maze) {
         for (char[] row : maze) {
             for (char c : row) {
                 System.out.print(c);
