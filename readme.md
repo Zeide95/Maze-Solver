@@ -16,5 +16,4 @@ This project generates a random maze and solves it using a recursive backtrackin
 - **`generateMaze()`**: Initializes the maze and carves paths.
 - **`carve()`**: Recursively carves the maze paths in random directions.
 - **`solve()`**: Solves the maze using DFS and backtracking.
-- **`printMaze()`**: Displays the generated maze.
-- **`printCopy()`**: Displays the maze with the solution path.
+- **`printMaze()`**: Displays the maze.
